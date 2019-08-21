@@ -2,8 +2,21 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './routers'
 import store from './stores'
+import axios from 'axios'
+import './plugins/element.js'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 
-Vue.config.productionTip = false
+
+Vue.use(MintUI)
+
+Vue.prototype.axios=axios;
+
+Vue.config.productionTip = false;
+
+Vue.filter('setWH',(url,arg)=>{
+    return url.replace(/w\.h/,arg);
+});
 
 new Vue({
   router,
