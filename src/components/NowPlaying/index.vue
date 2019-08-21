@@ -1,130 +1,48 @@
 <template>
-
-			
-			<div class="movie_body">
-				<ul>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_1.jpg"></div>
-						<div class="info_list">
-							<h2>无名之辈</h2>
-							<p>观众评 <span class="grade">9.2</span></p>
-							<p>主演: 陈建斌,任素汐,潘斌龙</p>
-							<p>今天55家影院放映607场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_2.jpg"></div>
-						<div class="info_list">
-							<h2>毒液：致命守护者</h2>
-							<p>观众评 <span class="grade">9.3</span></p>
-							<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-							<p>今天56家影院放映443场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_1.jpg"></div>
-						<div class="info_list">
-							<h2>无名之辈</h2>
-							<p>观众评 <span class="grade">9.2</span></p>
-							<p>主演: 陈建斌,任素汐,潘斌龙</p>
-							<p>今天55家影院放映607场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_2.jpg"></div>
-						<div class="info_list">
-							<h2>毒液：致命守护者</h2>
-							<p>观众评 <span class="grade">9.3</span></p>
-							<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-							<p>今天56家影院放映443场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_1.jpg"></div>
-						<div class="info_list">
-							<h2>无名之辈</h2>
-							<p>观众评 <span class="grade">9.2</span></p>
-							<p>主演: 陈建斌,任素汐,潘斌龙</p>
-							<p>今天55家影院放映607场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_2.jpg"></div>
-						<div class="info_list">
-							<h2>毒液：致命守护者</h2>
-							<p>观众评 <span class="grade">9.3</span></p>
-							<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-							<p>今天56家影院放映443场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_1.jpg"></div>
-						<div class="info_list">
-							<h2>无名之辈</h2>
-							<p>观众评 <span class="grade">9.2</span></p>
-							<p>主演: 陈建斌,任素汐,潘斌龙</p>
-							<p>今天55家影院放映607场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-					<li>
-						<div class="pic_show"><img src="@/assets/images/movie_2.jpg"></div>
-						<div class="info_list">
-							<h2>毒液：致命守护者</h2>
-							<p>观众评 <span class="grade">9.3</span></p>
-							<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-							<p>今天56家影院放映443场</p>
-						</div>
-						<div class="btn_mall">
-							购票
-						</div>
-					</li>
-				</ul>
-			</div>
-
+    <div class="movie_body">
+        <ul>
+            <li v-for="item in movieList" :key="item.id">
+                <div class="pic_show">
+                    <img :src="item.img|setWH('128.180')" />
+                </div>
+                <div class="info_list">
+                    <h2>{{item.nm}} <img v-if="item.version=='v3d imax'" src="@/assets/max.png" alt=""> </h2>
+                    <p>
+                        观众评
+                        <span class="grade">{{item.sc}}</span>
+                    </p>
+                    <p>主演: {{item.star}}</p>
+                    <p>{{item.showInfo}}</p>
+                </div>
+                <div class="btn_mall">购票</div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
 //import BScroll from 'better-scroll';
 
 export default {
-  name: "NowPlaying",
- 
+    name: "NowPlaying",
+    data() {
+        return {
+            movieList: []
+        };
+    },
+    mounted() {
+        this.axios.get("/api/movieOnInfoList?cityId=10").then(res => {
+            let msg = res.data.msg;
+            if (msg === "ok") {
+                this.movieList = res.data.data.movieList;
+                console.log(this.movieList);
+            }
+        });
+    }
 };
 </script>
 
 <style scoped>
-#content{ flex:1; overflow:auto; margin-bottom: 50px; position: relative; display: flex; flex-direction:column;}
-#content .movie_menu{ width: 100%; height: 45px; border-bottom:1px solid #e6e6e6; display: flex; justify-content:space-between; align-items:center; background:white; z-index:10;}
-.movie_menu .city_name{ margin-left: 20px; height:100%; line-height: 45px;}
-.movie_menu .city_name.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
-.movie_menu .hot_swtich{ display: flex; height:100%; line-height: 45px;}
-.movie_menu .hot_item{ font-size: 15px; color:#666; width:80px; text-align:center; margin:0 12px; font-weight:700;}
-.movie_menu .hot_item.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
-.movie_menu .search_entry{ margin-right:20px; height:100%; line-height: 45px;}
-.movie_menu .search_entry.router-link-active{ color: #ef4238; border-bottom: 2px #ef4238 solid;}
-.movie_menu .search_entry i{  font-size:24px; color:red;}
-
 #content .movie_body{ flex:1; overflow:auto;}
 .movie_body ul{ margin:0 12px; overflow: hidden;}
 .movie_body ul li{ margin-top:12px; display: flex; align-items:center; border-bottom: 1px #e6e6e6 solid; padding-bottom: 10px;}
@@ -137,4 +55,5 @@ export default {
 .movie_body .info_list img{ width:50px; position: absolute; right:10px; top: 5px;}
 .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #f03d37; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
 .movie_body .btn_pre{ background-color: #3c9fe6;}
+.movie_body .pullDown{ margin:0; padding:0; border:none;}
 </style>
