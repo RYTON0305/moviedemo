@@ -6,8 +6,12 @@ import axios from 'axios'
 import './plugins/element.js'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import Scroller from '@/components/Scroller'
+import Loading from '@/components/Loading'
 
+Vue.component('Scroller',Scroller)
 
+Vue.component('Loading',Loading)
 Vue.use(MintUI)
 
 Vue.prototype.axios=axios;
