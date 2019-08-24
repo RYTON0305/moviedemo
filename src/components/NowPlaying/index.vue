@@ -35,6 +35,7 @@
 //import BScroll from 'better-scroll';
 // import BScroll from "better-scroll";
 import { setTimeout } from "timers";
+import { MessageBox } from "mint-ui";
 export default {
     name: "NowPlaying",
     data() {
@@ -51,14 +52,14 @@ export default {
             return;
         }
         this.isLoading = true;
-        console.log("activated");
+        // console.log("activated");
         this.axios.get("/api/movieOnInfoList?cityId=" + cityID).then(res => {
             let msg = res.data.msg;
             if (msg === "ok") {
                 this.movieList = res.data.data.movieList;
                 this.isLoading = false;
                 this.prevCity = cityID;
-                console.log(cityID);
+                // console.log(cityID);
                 // console.log(this.movieList);
                 // this.$nextTick(() => {
                 //     let scroll = new BScroll(this.$refs.movie_body, {
@@ -93,6 +94,65 @@ export default {
                 // });
             }
         });
+    },
+    mounted() {
+        // let loadCity = window.localStorage.getItem("nowNM");
+        // let loadCityID = window.localStorage.getItem("nowID");
+        // // console.log("loadCity", loadCity);
+        // this.isLoading = true;
+    
+      
+        this.axios.get("/api/getLocation").then(res => {
+            // console.log(res);
+            let msg = res.data.msg;
+            if (msg === "ok") {
+                let curCity = res.data.data.nm;
+                let curCityID = res.data.data.id;
+                // console.log(curCity);
+                console.log(
+                    "等不等",
+                    curCityID == this.$store.state.city.id
+                );
+                console.dir(
+                    curCity ,
+
+                );
+                console.dir(
+                    this.$store.state.city.nm,
+
+                );
+                if (curCityID == this.$store.state.city.id) {
+                    return;
+                } else {
+                    MessageBox.confirm("", {
+                        title: "检测到您所在城市为",
+                        message: curCity,
+                        // confirmButtonClass: "ccc",
+                        showCancelButton: true,
+                        // confirmButtonHighlight:true,
+                        confirmButtonText: "切换定位"
+                    }).then(action => {
+                        if (action == "confirm") {
+                            // console.log(111);
+                            // this.$store.state.city.nm = curCity;
+                            // this.$store.state.city.id = curCityID;
+                            // console.log('窑村的',curCity);
+                            window.localStorage.setItem(
+                                "nowNM",
+                                curCity
+                            );
+                            window.localStorage.setItem(
+                                "nowID",
+                                curCityID
+                            );
+                            window.location.reload();
+         
+                        }
+                    });
+                }
+            }
+        });
+        // }
     },
     methods: {
         handleToDetail() {
