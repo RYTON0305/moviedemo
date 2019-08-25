@@ -9,21 +9,23 @@ import 'mint-ui/lib/style.css'
 import Scroller from '@/components/Scroller'
 import Loading from '@/components/Loading'
 
-Vue.component('Scroller',Scroller)
+Vue.component('Scroller', Scroller)
 
-Vue.component('Loading',Loading)
+Vue.component('Loading', Loading)
 Vue.use(MintUI)
 
-Vue.prototype.axios=axios;
+Vue.prototype.axios = axios;
 
 Vue.config.productionTip = false;
 
-Vue.filter('setWH',(url,arg)=>{
-    return url.replace(/w\.h/,arg);
+Vue.filter('setWH', (url, arg) => {
+    if (!url) return ''
+
+    return url.replace(/w\.h/, arg);
 });
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

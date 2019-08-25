@@ -42,6 +42,7 @@
                 <router-view />
             </keep-alive>
         </div>
+        <router-view name="detail"></router-view>
         <Footer />
         <!-- <router-view name="detail" /> -->
     </div>

@@ -5,10 +5,10 @@
             <ul>
                 <li v-for="item in comingList" :key="item.id">
                     <div class="pic_show">
-                        <img :src="item.img|setWH('128.180')" />
+                        <img :src="item.img|setWH('128.180')" @tap="handleToDetail(item.id)" />
                     </div>
                     <div class="info_list">
-                        <h2>
+                        <h2 @tap="handleToDetail(item.id)">
                             {{item.nm}}
                             <img
                                 v-if="item.version=='v3d imax'"
@@ -32,6 +32,15 @@
 <script>
 export default {
     name: "ComingSoon",
+    methods:{
+         handleToDetail(movieID) {
+            // this.
+            console.log("tap");
+            console.log(movieID);
+            this.$router.push('/movie/detail/2/'+movieID)
+            // console.log(Boolean(this.pullDownMsg));
+        },
+    },
     data() {
         return {
             comingList: [],

@@ -6,10 +6,10 @@
                 <li class="pullUpdeta">{{pullDownMsg}}</li>
                 <li v-for="item in movieList" :key="item.id">
                     <div class="pic_show">
-                        <img :src="item.img|setWH('128.180')" @tap="handleToDetail" />
+                        <img :src="item.img|setWH('128.180')" @tap="handleToDetail(item.id)" />
                     </div>
                     <div class="info_list">
-                        <h2>
+                        <h2 @tap="handleToDetail(item.id)">
                             {{item.nm}}
                             <img
                                 v-if="item.version=='v3d imax'"
@@ -145,8 +145,11 @@ export default {
         // }
     },
     methods: {
-        handleToDetail() {
+        handleToDetail(movieID) {
+            // this.
             // console.log("tap");
+            // console.log(movieID);
+            this.$router.push('/movie/detail/1/'+movieID)
             // console.log(Boolean(this.pullDownMsg));
         },
         handleToScroll(pos) {
