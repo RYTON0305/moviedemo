@@ -6,10 +6,10 @@
                 <li class="pullUpdeta">{{pullDownMsg}}</li>
                 <li v-for="item in movieList" :key="item.id">
                     <div class="pic_show">
-                        <img :src="item.img|setWH('128.180')" @tap="handleToDetail" />
+                        <img :src="item.img|setWH('128.180')" @tap="handleToDetail(item.id)" />
                     </div>
                     <div class="info_list">
-                        <h2>
+                        <h2 @tap="handleToDetail(item.id)">
                             {{item.nm}}
                             <img
                                 v-if="item.version=='v3d imax'"
@@ -100,8 +100,7 @@ export default {
         // let loadCityID = window.localStorage.getItem("nowID");
         // // console.log("loadCity", loadCity);
         // this.isLoading = true;
-    
-      
+
         this.axios.get("/api/getLocation").then(res => {
             // console.log(res);
             let msg = res.data.msg;
@@ -109,18 +108,9 @@ export default {
                 let curCity = res.data.data.nm;
                 let curCityID = res.data.data.id;
                 // console.log(curCity);
-                console.log(
-                    "等不等",
-                    curCityID == this.$store.state.city.id
-                );
-                console.dir(
-                    curCity ,
-
-                );
-                console.dir(
-                    this.$store.state.city.nm,
-
-                );
+                console.log("等不等", curCityID == this.$store.state.city.id);
+                console.dir(curCity);
+                console.dir(this.$store.state.city.nm);
                 if (curCityID == this.$store.state.city.id) {
                     return;
                 } else {
@@ -131,32 +121,35 @@ export default {
                         showCancelButton: true,
                         // confirmButtonHighlight:true,
                         confirmButtonText: "切换定位"
-                    }).then(action => {
-                        if (action == "confirm") {
-                            // console.log(111);
-                            // this.$store.state.city.nm = curCity;
-                            // this.$store.state.city.id = curCityID;
-                            // console.log('窑村的',curCity);
-                            window.localStorage.setItem(
-                                "nowNM",
-                                curCity
-                            );
-                            window.localStorage.setItem(
-                                "nowID",
-                                curCityID
-                            );
-                            window.location.reload();
-         
-                        }
-                    });
+                    })
+                        .then(action => {
+                            if (action == "confirm") {
+                                // console.log(111);
+                                // this.$store.state.city.nm = curCity;
+                                // this.$store.state.city.id = curCityID;
+                                // console.log('窑村的',curCity);
+                                window.localStorage.setItem("nowNM", curCity);
+                                window.localStorage.setItem("nowID", curCityID);
+                                window.location.reload();
+                            }
+                        })
+                        .catch(err => {
+                            if (err == "cancel") {
+                                //取消的回调
+                                console.log(2);
+                            }
+                        });
                 }
             }
         });
         // }
     },
     methods: {
-        handleToDetail() {
+        handleToDetail(movieID) {
+            // this.
             // console.log("tap");
+            // console.log(movieID);
+            this.$router.push('/movie/detail/1/'+movieID)
             // console.log(Boolean(this.pullDownMsg));
         },
         handleToScroll(pos) {
