@@ -84,12 +84,23 @@
 
     <div class="city_body">
         <Loading v-if="isLoading" />
+
         <mt-index-list v-else>
             <mt-index-section index="热门">
-                <mt-cell v-for="item in hotList" :title="item.nm" :key="item.nm" @click.native='handleToCity(item.nm,item.id)'></mt-cell>
+                <mt-cell
+                    v-for="item in hotList"
+                    :title="item.nm"
+                    :key="item.nm"
+                    @click.native="handleToCity(item.nm,item.id)"
+                ></mt-cell>
             </mt-index-section>
             <mt-index-section v-for="item in cityList" :key="item.index" :index="item.index">
-                <mt-cell v-for="city in item.list" :title="city.nm" :key="city.nm" @click.native='handleToCity(city.nm,city.id)'></mt-cell>
+                <mt-cell
+                    v-for="city in item.list"
+                    :title="city.nm"
+                    :key="city.nm"
+                    @click.native="handleToCity(city.nm,city.id)"
+                ></mt-cell>
             </mt-index-section>
         </mt-index-list>
     </div>
@@ -195,18 +206,18 @@ export default {
             };
         },
 
-        handleToCity(nm,id){
+        handleToCity(nm, id) {
             // console.log(nm,id);
-            this.$store.commit('city/CITY_INFO',{nm,id});
-            window.localStorage.setItem('nowNM',nm);
-            window.localStorage.setItem('nowID',id);
-            this.$router.push('/movie/nowPlaying');
+            this.$store.commit("city/CITY_INFO", { nm, id });
+            window.localStorage.setItem("nowNM", nm);
+            window.localStorage.setItem("nowID", id);
+            this.$router.push("/movie/nowPlaying");
         }
     }
 };
 </script>
 <style scoped>
-.mint-indexlist-content {
+.city_body {
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
 }
