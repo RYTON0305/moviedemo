@@ -8,6 +8,9 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import Scroller from '@/components/Scroller'
 import Loading from '@/components/Loading'
+import FastClick from 'fastclick'
+
+FastClick.attach(document.body);
 
 Vue.component('Scroller', Scroller)
 
